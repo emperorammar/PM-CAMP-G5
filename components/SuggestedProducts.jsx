@@ -8,11 +8,11 @@ export default function SuggestedProducts({ products }) {
 
   if (itemCount === 0) return null;
 
-  const headline = reward.unlocked
+  const headline = reward.allUnlocked
     ? 'منتجات قد تعجبك ✨'
     : 'أكمل مكافآتك بهذه المنتجات الذكية 💡';
 
-  const subline = reward.unlocked
+  const subline = reward.allUnlocked
     ? 'أضف المزيد إلى طلبك واستمتع'
     : 'منتجات بأسعار منخفضة تساعدك على بلوغ شروط المكافأة بسرعة';
 

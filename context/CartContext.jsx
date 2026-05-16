@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useEffect, useMemo, useReducer, useState } from 'react';
+import { createContext, useContext, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import { MYSTERY_BOX_ID, mysteryBox } from '@/lib/products';
 import { getRewardState } from '@/lib/rewards';
 
@@ -38,7 +38,8 @@ function cartReducer(state, action) {
 export function CartProvider({ children }) {
   const [items, dispatch] = useReducer(cartReducer, []);
   const [isOpen, setIsOpen] = useState(false);
-  const [justUnlocked, setJustUnlocked] = useState(false);
+  const [unlockEvent, setUnlockEvent] = useState(null);
+  const prevRewardRef = useRef({ mysteryUnlocked: false, shippingUnlocked: false });
 
   const realItems = useMemo(() => items.filter((i) => i.id !== MYSTERY_BOX_ID), [items]);
 
@@ -56,14 +57,29 @@ export function CartProvider({ children }) {
 
   useEffect(() => {
     const hasMystery = items.some((i) => i.id === MYSTERY_BOX_ID);
-    if (reward.unlocked && !hasMystery) {
+    if (reward.mysteryUnlocked && !hasMystery) {
       dispatch({ type: 'ADD_MYSTERY' });
-      setJustUnlocked(true);
-    } else if (!reward.unlocked && hasMystery) {
+    } else if (!reward.mysteryUnlocked && hasMystery) {
       dispatch({ type: 'REMOVE_MYSTERY' });
-      setJustUnlocked(false);
     }
-  }, [reward.unlocked, items]);
+
+    const prev = prevRewardRef.current;
+    const newlyMystery = reward.mysteryUnlocked && !prev.mysteryUnlocked;
+    const newlyShipping = reward.shippingUnlocked && !prev.shippingUnlocked;
+
+    if (newlyMystery && newlyShipping) {
+      setUnlockEvent({ type: 'all', ts: Date.now() });
+    } else if (newlyMystery) {
+      setUnlockEvent({ type: 'mystery', ts: Date.now() });
+    } else if (newlyShipping) {
+      setUnlockEvent({ type: 'shipping', ts: Date.now() });
+    }
+
+    prevRewardRef.current = {
+      mysteryUnlocked: reward.mysteryUnlocked,
+      shippingUnlocked: reward.shippingUnlocked,
+    };
+  }, [reward.mysteryUnlocked, reward.shippingUnlocked, items]);
 
   const value = {
     items,
@@ -72,7 +88,7 @@ export function CartProvider({ children }) {
     total,
     reward,
     isOpen,
-    justUnlocked,
+    unlockEvent,
     openCart: () => setIsOpen(true),
     closeCart: () => setIsOpen(false),
     addToCart: (product) => {
@@ -82,7 +98,7 @@ export function CartProvider({ children }) {
     removeFromCart: (id) => dispatch({ type: 'REMOVE', id }),
     increment: (id) => dispatch({ type: 'INC', id }),
     decrement: (id) => dispatch({ type: 'DEC', id }),
-    acknowledgeUnlock: () => setJustUnlocked(false),
+    acknowledgeUnlock: () => setUnlockEvent(null),
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

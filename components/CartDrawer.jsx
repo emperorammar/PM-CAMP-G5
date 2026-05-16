@@ -66,7 +66,7 @@ function CartItem({ item }) {
 
 export default function CartDrawer() {
   const { isOpen, closeCart, items, realItems, total, reward } = useCart();
-  const shipping = reward.unlocked ? 0 : 25;
+  const shipping = reward.shippingUnlocked ? 0 : 25;
   const grandTotal = total + shipping;
 
   return (
@@ -114,7 +114,7 @@ export default function CartDrawer() {
             </div>
 
             <div className="px-4 pt-4 shrink-0">
-              <MysteryBoxCard unlocked={reward.unlocked} />
+              <MysteryBoxCard unlocked={reward.mysteryUnlocked} />
             </div>
 
             <div className="flex-1 overflow-y-auto px-4 pt-4 pb-4">
@@ -142,8 +142,8 @@ export default function CartDrawer() {
                   </div>
                   <div className="flex justify-between text-ink-700">
                     <span>الشحن</span>
-                    <span className={`font-bold ${reward.unlocked ? 'text-emerald-600' : ''}`}>
-                      {reward.unlocked ? 'مجاناً 🚚' : formatSAR(shipping)}
+                    <span className={`font-bold ${reward.shippingUnlocked ? 'text-emerald-600' : ''}`}>
+                      {reward.shippingUnlocked ? 'مجاناً 🚚' : formatSAR(shipping)}
                     </span>
                   </div>
                   <div className="flex justify-between text-base font-extrabold text-ink-900 pt-2 border-t border-ink-100">

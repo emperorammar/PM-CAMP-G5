@@ -11,13 +11,13 @@ export default function Hero() {
             مكافآت حصرية لفترة محدودة
           </span>
           <h1 className="text-3xl sm:text-5xl font-extrabold leading-tight mb-4">
-            اشترِ منتجين بـ <span className="text-yellow-300">160 ر.س</span>
+            منتجين = <span className="text-yellow-300">صندوق غامض</span> 🎁
             <br />
-            وافتح صندوقك الغامض 🎁
+            وفوق <span className="text-yellow-300">200 ر.س</span> = شحن مجاني 🚚
           </h1>
           <p className="text-white/85 text-base sm:text-lg mb-6 leading-relaxed">
-            شحن مجاني + مفاجأة قيّمة بانتظارك مع كل طلب يحقق الشروط.
-            هدية مضمونة، تجربة لا تُنسى.
+            مكافأتان مستقلتان مع كل طلب. كل ما زادت سلتك، زادت الهدايا —
+            تجربة تسوّق ممتعة ومجزية.
           </p>
           <div className="flex flex-wrap gap-3">
             <a
@@ -39,17 +39,17 @@ export default function Hero() {
 
           <div className="flex flex-wrap gap-6 mt-8 text-sm">
             <div className="flex items-center gap-2">
-              <span className="text-2xl">🚚</span>
-              <div>
-                <p className="font-bold">شحن مجاني</p>
-                <p className="text-white/70 text-xs">للطلبات فوق 160 ر.س</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
               <span className="text-2xl">🎁</span>
               <div>
                 <p className="font-bold">صندوق غامض</p>
-                <p className="text-white/70 text-xs">مع كل طلب مؤهّل</p>
+                <p className="text-white/70 text-xs">عند إضافة منتجين</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-2xl">🚚</span>
+              <div>
+                <p className="font-bold">شحن مجاني</p>
+                <p className="text-white/70 text-xs">للطلبات فوق 200 ر.س</p>
               </div>
             </div>
             <div className="flex items-center gap-2">

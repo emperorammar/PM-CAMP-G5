@@ -35,20 +35,41 @@ function fireConfetti() {
   });
 }
 
+const messages = {
+  mystery: {
+    icon: '🎁',
+    title: 'مبروك! تم فتح الصندوق الغامض',
+    sub: 'تمت إضافته إلى سلتك تلقائياً',
+  },
+  shipping: {
+    icon: '🚚',
+    title: 'رائع! تم تفعيل الشحن المجاني',
+    sub: 'وفّرت تكلفة الشحن على طلبك',
+  },
+  all: {
+    icon: '🎉',
+    title: 'مبروك! تم فتح جميع المكافآت',
+    sub: 'شحن مجاني + الصندوق الغامض في سلتك',
+  },
+};
+
 export default function UnlockAnimation() {
-  const { justUnlocked, acknowledgeUnlock } = useCart();
+  const { unlockEvent, acknowledgeUnlock } = useCart();
 
   useEffect(() => {
-    if (!justUnlocked) return;
+    if (!unlockEvent) return;
     fireConfetti();
-    const t = setTimeout(() => acknowledgeUnlock(), 2400);
+    const t = setTimeout(() => acknowledgeUnlock(), 2600);
     return () => clearTimeout(t);
-  }, [justUnlocked, acknowledgeUnlock]);
+  }, [unlockEvent, acknowledgeUnlock]);
+
+  const data = unlockEvent ? messages[unlockEvent.type] : null;
 
   return (
     <AnimatePresence>
-      {justUnlocked && (
+      {data && (
         <motion.div
+          key={unlockEvent.ts}
           initial={{ opacity: 0, scale: 0.85 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.9 }}
@@ -61,12 +82,10 @@ export default function UnlockAnimation() {
             transition={{ type: 'spring', stiffness: 200, damping: 12, delay: 0.1 }}
             className="text-5xl mb-2"
           >
-            🎉
+            {data.icon}
           </motion.div>
-          <p className="font-extrabold text-lg mb-1">مبروك! تم فتح مكافآتك</p>
-          <p className="text-sm text-white/90">
-            شحن مجاني + الصندوق الغامض أُضيف إلى سلتك
-          </p>
+          <p className="font-extrabold text-lg mb-1">{data.title}</p>
+          <p className="text-sm text-white/90">{data.sub}</p>
         </motion.div>
       )}
     </AnimatePresence>

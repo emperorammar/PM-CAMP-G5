@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { MIN_ITEMS_FOR_MYSTERY } from '@/lib/rewards';
 
 const rewards = [
   { icon: '🧴', label: 'عينة مجانية' },
@@ -42,7 +43,7 @@ export default function MysteryBoxCard({ unlocked }) {
           <p className={`text-xs leading-snug ${unlocked ? 'text-white/80' : 'text-ink-500'}`}>
             {unlocked
               ? 'تمت إضافته إلى سلتك تلقائياً 🎉'
-              : 'يُفتح عند 2 منتج + 160 ر.س'}
+              : `يُفتح عند إضافة ${MIN_ITEMS_FOR_MYSTERY} منتجات`}
           </p>
         </div>
       </div>
