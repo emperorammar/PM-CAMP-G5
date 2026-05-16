@@ -4,9 +4,10 @@ import { motion } from 'framer-motion';
 import { MIN_ITEMS_FOR_MYSTERY } from '@/lib/rewards';
 
 const rewards = [
-  { icon: '🧴', label: 'عينة مجانية' },
-  { icon: '🎀', label: 'هدية صغيرة' },
-  { icon: '🏷️', label: 'كوبون خصم' },
+  { icon: '🏷️', label: 'كوبون خصم', desc: 'خصم على طلبك القادم' },
+  { icon: '📱', label: 'كفر جوال', desc: 'حافظة أنيقة مجانية' },
+  { icon: '🔌', label: 'سلك شحن', desc: 'كيبل USB-C سريع' },
+  { icon: '🎧', label: 'سماعة', desc: 'سماعة سلكية عالية الجودة' },
 ];
 
 export default function MysteryBoxCard({ unlocked }) {
@@ -48,20 +49,33 @@ export default function MysteryBoxCard({ unlocked }) {
         </div>
       </div>
 
-      <div className="relative grid grid-cols-3 gap-2 mt-4">
-        {rewards.map((r) => (
-          <div
-            key={r.label}
-            className={`text-center rounded-xl p-2 ${
-              unlocked ? 'bg-white/10 backdrop-blur' : 'bg-white border border-ink-100'
-            }`}
-          >
-            <div className="text-2xl mb-1">{r.icon}</div>
-            <p className={`text-[10px] font-bold ${unlocked ? 'text-white/90' : 'text-ink-700'}`}>
-              {r.label}
-            </p>
-          </div>
-        ))}
+      <div className={`relative mt-4 rounded-xl p-3 ${unlocked ? 'bg-white/10 backdrop-blur' : 'bg-white border border-ink-100'}`}>
+        <p className={`text-[11px] font-extrabold mb-2.5 ${unlocked ? 'text-yellow-200' : 'text-ink-500'}`}>
+          🎲 قد تحصل على واحدة من هذه الهدايا:
+        </p>
+        <div className="grid grid-cols-2 gap-2">
+          {rewards.map((r) => (
+            <div
+              key={r.label}
+              className={`flex items-center gap-2 rounded-xl px-2.5 py-2 ${
+                unlocked ? 'bg-white/10' : 'bg-ink-100/70'
+              }`}
+            >
+              <span className="text-xl shrink-0">{r.icon}</span>
+              <div className="min-w-0">
+                <p className={`text-[11px] font-extrabold leading-tight ${unlocked ? 'text-white' : 'text-ink-900'}`}>
+                  {r.label}
+                </p>
+                <p className={`text-[10px] leading-tight truncate ${unlocked ? 'text-white/70' : 'text-ink-500'}`}>
+                  {r.desc}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+        <p className={`text-[10px] text-center mt-2.5 ${unlocked ? 'text-white/60' : 'text-ink-400'}`}>
+          الهدية مفاجأة — ستُكشف عند استلام طلبك ✨
+        </p>
       </div>
     </motion.div>
   );
